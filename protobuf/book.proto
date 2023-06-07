@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option go_package="/bookpb";
+
+message Book {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string author = 4;
+}
+
+message CreateBookRequest {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string author = 4;
+}
+
+message CreateBookResponse {
+    bool status = 1;
+    Book book = 2;
+}
+
+message GetBooksRequest {}
+
+message GetBooksResponse {
+    bool status = 1;
+    Book book = 2;
+}
+
+message CreateManyBooksRequest {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    string author = 4;
+}
+message CreateManyBooksResponse {
+    bool status = 1;
+    string message = 2;
+}
+
+// define rpc service
+service BookService {
+    rpc CreateBook (CreateBookRequest) returns (CreateBookResponse); // unary
+    rpc GetBooks (GetBooksRequest) returns (stream GetBooksResponse); // server stream
+    rpc CreateManyBooks (stream CreateManyBooksRequest) returns (CreateManyBooksResponse); // client stream
+}
